@@ -39,7 +39,6 @@ public class CatalogBffService {
                     .body(new ParameterizedTypeReference<>() {});
             return response.getData();
         } catch (HttpClientErrorException.NotFound ex) {
-            // Traducimos el 404 del micro a una excepción propia del BFF
             throw new BffNotFoundException("Wine not found");
         }
     }
