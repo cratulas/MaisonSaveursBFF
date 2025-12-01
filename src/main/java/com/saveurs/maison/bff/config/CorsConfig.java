@@ -9,14 +9,15 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class CorsConfig {
 
     @Bean
-    public WebMvcConfigurer bffCorsConfigurer() {
+    public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
+
+                registry.addMapping("/**")
                         .allowedOrigins(
                                 "http://localhost:8100",   // Ionic web
-                                "capacitor://localhost",   // Capacitor Android/iOS
+                                "capacitor://localhost",   // App nativa Android/iOS
                                 "ionic://localhost"
                         )
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
