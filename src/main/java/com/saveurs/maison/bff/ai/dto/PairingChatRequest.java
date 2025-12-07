@@ -1,4 +1,3 @@
-// bff-service/src/main/java/com/saveurs/maison/bff/ai/dto/PairingChatRequest.java
 package com.saveurs.maison.bff.ai.dto;
 
 import java.util.List;

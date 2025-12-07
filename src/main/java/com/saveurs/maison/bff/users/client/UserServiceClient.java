@@ -29,7 +29,7 @@ public class UserServiceClient {
                     h.set("X-User-Email", identity.getEmail());
                     h.set("X-User-Name", nullSafe(identity.getFirstName()));
                     h.set("X-User-Lastname", nullSafe(identity.getLastName()));
-                    h.set("X-User-Role", "CUSTOMER");   // por ahora, MSUsuario asigna el rol real
+                    h.set("X-User-Role", "CUSTOMER");
                 })
                 .retrieve()
                 .bodyToMono(UserProfileDto.class)
