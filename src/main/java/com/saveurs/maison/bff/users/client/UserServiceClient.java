@@ -29,7 +29,7 @@ public class UserServiceClient {
                     h.set("X-User-Email", identity.getEmail());
                     h.set("X-User-Name", nullSafe(identity.getFirstName()));
                     h.set("X-User-Lastname", nullSafe(identity.getLastName()));
-                    h.set("X-User-Role", "CUSTOMER");
+                    // Ya no enviamos X-User-Role, el rol lo maneja MS Usuario
                 })
                 .retrieve()
                 .bodyToMono(UserProfileDto.class)
@@ -106,6 +106,23 @@ public class UserServiceClient {
                 .header("X-User-Id", userId)
                 .retrieve()
                 .toBodilessEntity()
+                .block();
+    }
+
+    // ============================
+    // ADMIN: UPDATE USER ROLE
+    // ============================
+
+    public UserProfileDto updateUserRole(String targetUserId, String newRole) {
+
+        return userServiceWebClient.put()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/api/users/{id}/role")
+                        .queryParam("role", newRole)
+                        .build(targetUserId)
+                )
+                .retrieve()
+                .bodyToMono(UserProfileDto.class)
                 .block();
     }
 

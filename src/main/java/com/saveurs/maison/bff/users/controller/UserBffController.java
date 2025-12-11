@@ -135,4 +135,32 @@ public class UserBffController {
 
         return ResponseEntity.noContent().build();
     }
+
+    // ============================================
+    // ADMIN: CAMBIAR ROL DE UN USUARIO
+    // ============================================
+    @PutMapping("/admin/{id}/role")
+    public ResponseEntity<UserProfileDto> updateUserRole(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable("id") String targetUserId,
+            @RequestParam("role") String newRole) {
+
+        // 1. Identidad del usuario que está haciendo la petición (el "admin")
+        UserIdentity currentIdentity = identityExtractor.fromJwt(jwt);
+
+        // 2. Obtenemos su perfil desde el MS Usuario para conocer su rol actual
+        UserProfileDto currentProfile = userServiceClient.getOrCreateProfile(currentIdentity);
+
+        // 3. Validamos que sea ADMIN
+        if (currentProfile.getRole() == null ||
+                !currentProfile.getRole().equalsIgnoreCase("ADMIN")) {
+            // No autorizado para cambiar roles
+            return ResponseEntity.status(403).build();
+        }
+
+        // 4. Si es ADMIN, llamamos al MS Usuario para cambiar el rol del usuario objetivo
+        UserProfileDto updated = userServiceClient.updateUserRole(targetUserId, newRole);
+
+        return ResponseEntity.ok(updated);
+    }
 }
