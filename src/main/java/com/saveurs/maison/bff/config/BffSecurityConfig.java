@@ -16,9 +16,10 @@ public class BffSecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/actuator/health", "/actuator/info").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/bff/catalog/**").permitAll()
                         .requestMatchers("/api/bff/users/**").authenticated()
+                        .requestMatchers("/api/seller/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
